@@ -1,0 +1,8 @@
+replicaCount: 3
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+ui:
+  message: "Production Environment"
+  color: "#dc3545"

@@ -1,0 +1,8 @@
+replicaCount: 2
+resources:
+  limits:
+    cpu: 250m
+    memory: 256Mi
+ui:
+  message: "Staging Environment"
+  color: "#f0ad4e"
