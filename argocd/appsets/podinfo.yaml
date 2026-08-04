@@ -1,0 +1,49 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: podinfo
+  namespace: argocd
+
+spec:
+  generators:
+    - list:
+        elements:
+          - name: dev
+            valuesFile: argocd/apps/podinfo/values-dev.yaml
+            namespace: podinfo-dev
+
+          - name: staging
+            valuesFile: argocd/apps/podinfo/values-staging.yaml
+            namespace: podinfo-staging
+
+          - name: prod
+            valuesFile: argocd/apps/podinfo/values-prod.yaml
+            namespace: podinfo-prod
+
+  template:
+    metadata:
+      name: "podinfo-{{name}}"
+      namespace: argocd
+
+    spec:
+      project: default
+
+      sources:
+        - repoURL: https://stefanprodan.github.io/podinfo
+          chart: podinfo
+          targetRevision: 6.14.1
+          helm:
+            valueFiles:
+              - "$values/{{valuesFile}}"
+
+        - repoURL: https://github.com/jbazydlo/appdeploy-gitops.git
+          targetRevision: 3-configure-applicationsets-for-templated-deployments
+          ref: values
+
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{namespace}}"
+
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
