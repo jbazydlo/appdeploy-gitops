@@ -37,7 +37,7 @@ spec:
               - "$values/{{valuesFile}}"
 
         - repoURL: https://github.com/jbazydlo/appdeploy-gitops.git
-          targetRevision: 4-enable-auto-sync-and-self-healing
+          targetRevision: main
           ref: values
 
       destination:
