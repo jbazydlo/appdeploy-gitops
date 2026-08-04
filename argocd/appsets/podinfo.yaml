@@ -37,7 +37,7 @@ spec:
               - "$values/{{valuesFile}}"
 
         - repoURL: https://github.com/jbazydlo/appdeploy-gitops.git
-          targetRevision: 3-configure-applicationsets-for-templated-deployments
+          targetRevision: 4-enable-auto-sync-and-self-healing
           ref: values
 
       destination:
@@ -45,5 +45,8 @@ spec:
         namespace: "{{namespace}}"
 
       syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
         syncOptions:
           - CreateNamespace=true
